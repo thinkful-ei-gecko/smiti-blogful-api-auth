@@ -149,7 +149,7 @@ describe('Articles Endpoints', function() {
       it('removes XSS attack content', () => {
         return supertest(app)
           .get(`/api/articles/${maliciousArticle.id}`)
-          .set('Authorization', helpers.makeAuthHeader(testUsers))
+          .set('Authorization', helpers.makeAuthHeader(testUser))
           .expect(200)
           .expect(res => {
             expect(res.body.title).to.eql(expectedArticle.title)
