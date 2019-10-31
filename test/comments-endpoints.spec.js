@@ -32,6 +32,14 @@ describe('Comments Endpoints', function() {
         testArticles,
       )
     )
+    //valid token header is present or not
+    it(`responds 401 'Unauthorized request' when invalid password`, () => {
+        const userInvalidPass = { user_name: testUsers[0].user_name, password: 'wrong' }
+           return supertest(app)
+             .post('/api/comments')
+             .set('Authorization', helpers.makeAuthHeader(userInvalidPass))
+             .expect(401, { error: `Unauthorized request` })
+         })
 
     it(`creates an comment, responding with 201 and the new comment`, function() {
       this.retries(3)
@@ -44,6 +52,7 @@ describe('Comments Endpoints', function() {
       }
       return supertest(app)
         .post('/api/comments')
+        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
         .send(newComment)
         .expect(201)
         .expect(res => {
@@ -89,6 +98,7 @@ describe('Comments Endpoints', function() {
 
         return supertest(app)
           .post('/api/comments')
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .send(newComment)
           .expect(400, {
             error: `Missing '${field}' in request body`,

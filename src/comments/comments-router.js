@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const { requireAuth } = require('../middleware/basic-auth')
 const CommentsService = require('./comments-service')
 
 const commentsRouter = express.Router()
@@ -7,7 +8,7 @@ const jsonBodyParser = express.json()
 
 commentsRouter
   .route('/')
-  .post(jsonBodyParser, (req, res, next) => {
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { article_id, text, user_id } = req.body
     const newComment = { article_id, text, user_id }
 
