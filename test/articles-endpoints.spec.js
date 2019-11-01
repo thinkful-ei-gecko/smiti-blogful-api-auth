@@ -94,7 +94,7 @@ describe('Articles Endpoints', function() {
     context(`Given no articles`, () => {
       //to see users exist on the test. 
       beforeEach(() =>
-       db.into('blogful_users').insert(testUsers)
+       helpers.seedUsers(db, testUsers)
       )
       it(`responds with 404`, () => {
         const articleId = 123456
@@ -162,7 +162,7 @@ describe('Articles Endpoints', function() {
   describe(`GET /api/articles/:article_id/comments`, () => {
     context(`Given no articles`, () => {
       beforeEach(() =>
-       db.into('blogful_users').insert(testUsers)
+       helpers.seedUsers(db, testUsers)
      )
 
       it(`responds with 404`, () => {
